@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fairbook App</title>
+    
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="logo.png">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">&times;</a>
+        <div class="user-info">
+            <img src="logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/60'" style="width: 60px; border-radius: 10px; margin-bottom: 10px;">
+            <h4>વિદ્યાર્થી પ્રોફાઇલ</h4>
+            <p>Std. 9-12 Education</p>
+        </div>
+        <hr>
+        <a href="#"><span class="icon">👤</span> Profile</a>
+        <a href="#"><span class="icon">⚙️</span> Settings</a>
+        <a href="#"><span class="icon">🔔</span> Notifications</a>
+        <a href="#"><span class="icon">ℹ️</span> About Us</a>
+        <hr>
+        <p style="color: #888; font-size: 12px; padding: 10px 25px;">Version 1.0</p>
+    </div>
+
+    <div class="header">
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <h1>Fairbook</h1>
+        <p>ભવિષ્ય ઉજ્જવળ બનાવો!</p>
+    </div>
+
+    <div id="main-content" class="main-container">
+         <h3>તમારું ધોરણ પસંદ કરો</h3>
+         <button class="btn" style="background:#28a745; color:white; margin-bottom:20px; width:100%;" onclick="viewSavedItems()">
+  ⭐ સેવ કરેલી આઈટમ્સ (Saved Items)
+</button>
+        <div class="grid">
+            <button class="btn" onclick="openStd('Std 9')">ધોરણ 9</button>
+            <button class="btn" onclick="openStd('Std 10')">ધોરણ 10</button>
+            <button class="btn" onclick="openStd('Std 11')">ધોરણ 11</button>
+            <button class="btn" onclick="openStd('Std 12')">ધોરણ 12</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
