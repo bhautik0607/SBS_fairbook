@@ -8,15 +8,10 @@
     <style>
         :root {
             --bg-grad: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --btn-grad: linear-gradient(to right, #00c6ff, #0072ff);
+            --accent: #00c6ff;
             --white: #ffffff;
         }
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; 
-            background: #f0f2f5; 
-            color: #333; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f2f5; color: #333; overflow-x: hidden; }
 
         /* Splash Screen */
         #splash {
@@ -24,67 +19,80 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;
         }
         #splash img { width: 120px; border-radius: 20px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        /* Colorful Header */
-        header { 
-            background: var(--bg-grad); 
-            color: white; padding: 18px; 
-            display: flex; align-items: center; justify-content: space-between; 
-            position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        /* Side Menu */
+        .side-nav {
+            height: 100%; width: 0; position: fixed; z-index: 1000; top: 0; left: 0;
+            background-color: white; overflow-x: hidden; transition: 0.4s;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.3);
         }
-        .back-btn { font-size: 22px; cursor: pointer; display: none; }
+        .side-nav-header { background: var(--bg-grad); color: white; padding: 25px 15px; }
+        .side-nav a { padding: 15px 20px; text-decoration: none; font-size: 18px; color: #333; display: block; border-bottom: 1px solid #eee; }
+        .side-nav a:active { background: #f0f0f0; }
 
-        /* Page Background & Layout */
-        .page { padding: 20px; min-height: 80vh; animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Header */
+        header { 
+            background: var(--bg-grad); color: white; padding: 18px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .icon-btn { font-size: 24px; cursor: pointer; }
+
+        /* Page Layout */
+        .page { padding: 20px; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .motivation { 
-            text-align: center; padding: 15px; font-style: italic; 
-            color: white; background: rgba(0,0,0,0.1); 
-            margin-bottom: 25px; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background-image: var(--bg-grad);
+            text-align: center; padding: 15px; font-style: italic; color: white; 
+            background: var(--bg-grad); margin-bottom: 25px; border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* Column Buttons */
-        .column-layout { display: flex; flex-direction: column; gap: 15px; }
+        /* Buttons */
+        .column-layout { display: flex; flex-direction: column; gap: 12px; }
         .btn { 
-            background: var(--white); 
-            padding: 20px;
-            border-radius: 15px; 
-            font-size: 1.2rem; 
-            font-weight: bold; 
-            cursor: pointer;
-            transition: 0.3s; 
-            text-align: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border: none;
-            color: #444;
+            background: var(--white); padding: 18px; border-radius: 12px; 
+            font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            transition: 0.2s; text-align: center; border: none;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.08); color: #444;
         }
-        .btn:active { transform: scale(0.98); background: #e0e0e0; }
-        .std-btn { border-left: 8px solid #764ba2; }
+        .btn:active { transform: scale(0.97); background: #f9f9f9; }
+        .std-btn { border-left: 6px solid #764ba2; text-align: left; padding-left: 20px; }
+
+        .subject-item { 
+            background: white; padding: 18px; margin-bottom: 10px; 
+            border-radius: 10px; border-left: 6px solid var(--accent); 
+            font-weight: bold; cursor: pointer;
+        }
 
         .hidden { display: none !important; }
-        
-        .subject-item { 
-            background: white; padding: 18px; margin-bottom: 12px; 
-            border-radius: 12px; border-left: 6px solid #00c6ff; 
-            font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
     </style>
 </head>
 <body>
 
     <div id="splash">
         <img src="icon.png" alt="Logo">
-        <h2 style="color: #764ba2;">SBS Fairbook</h2>
+        <h2 style="color: #764ba2; margin-top: 15px;">SBS Fairbook</h2>
+    </div>
+
+    <div id="sideMenu" class="side-nav">
+        <div class="side-nav-header">
+            <h3>SBS Fairbook</h3>
+            <p style="font-size: 0.9rem;">Digital Learning App</p>
+        </div>
+        <a href="#" onclick="closeMenu()">🏠 Home</a>
+        <a href="#" onclick="alert('Settings coming soon!')">⚙️ Settings</a>
+        <a href="#" onclick="alert('Permissions are all set!')">🔒 Permissions</a>
+        <a href="#" onclick="alert('Developed by: Bhautik')">👨‍💻 About Developer</a>
+        <a href="#" onclick="closeMenu()" style="color: red; font-weight: bold; border-top: 2px solid #eee;">✖️ Close Menu</a>
     </div>
 
     <header>
-        <div id="backBtn" class="back-btn" onclick="goBack()">⬅️</div>
-        <div id="navTitle">SBS Fairbook</div>
-        <div style="font-size: 24px;">☰</div>
+        <div class="icon-btn" onclick="openMenu()">☰</div>
+        <div id="navTitle" style="font-weight: bold; font-size: 1.2rem;">SBS Fairbook</div>
+        <div id="backBtn" class="icon-btn" style="display: none;" onclick="goBack()">⬅️</div>
+        <div id="dummy" style="width: 24px;"></div>
     </header>
 
     <div id="homePage" class="page">
@@ -98,22 +106,27 @@
     </div>
 
     <div id="streamPage" class="page hidden">
-        <h3 id="streamTitle" style="text-align: center;">સ્ટ્રીમ પસંદ કરો</h3>
+        <h3 style="text-align: center;">સ્ટ્રીમ પસંદ કરો</h3>
         <div class="column-layout">
-            <div class="btn" style="border-left-color: #ff4b2b;" onclick="showSubjects('Science')">Science (વિજ્ઞાન પ્રવાહ)</div>
-            <div class="btn" style="border-left-color: #f9d423;" onclick="showSubjects('Commerce')">Commerce (સામાન્ય પ્રવાહ)</div>
-            <div class="btn" style="border-left-color: #4facfe;" onclick="showSubjects('Arts')">Arts (વિનયન પ્રવાહ)</div>
+            <div class="btn" style="border-left: 6px solid #ff4b2b;" onclick="showSubjects('Science')">Science (વિજ્ઞાન પ્રવાહ)</div>
+            <div class="btn" style="border-left: 6px solid #f9d423;" onclick="showSubjects('Commerce')">Commerce (સામાન્ય પ્રવાહ)</div>
+            <div class="btn" style="border-left: 6px solid #4facfe;" onclick="showSubjects('Arts')">Arts (વિનયન પ્રવાહ)</div>
         </div>
     </div>
 
     <div id="subjectPage" class="page hidden">
-        <h3 id="subjectTitle" style="text-align: center;">વિષયો (NCERT મુજબ)</h3>
+        <h3 id="subjectTitle" style="text-align: center;">વિષયો (NCERT)</h3>
         <div id="subjectList" class="column-layout"></div>
     </div>
 
     <script>
         let history = ['homePage'];
+
+        // Splash screen timer
         setTimeout(() => document.getElementById('splash').classList.add('hidden'), 2000);
+
+        function openMenu() { document.getElementById("sideMenu").style.width = "270px"; }
+        function closeMenu() { document.getElementById("sideMenu").style.width = "0"; }
 
         function navigate(toId, title) {
             document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
@@ -121,6 +134,7 @@
             document.getElementById('navTitle').innerText = title;
             document.getElementById('backBtn').style.display = toId === 'homePage' ? 'none' : 'block';
             history.push(toId);
+            closeMenu();
         }
 
         function goBack() {
@@ -137,7 +151,7 @@
 
         function showStreams(std) {
             if(std >= 11) navigate('streamPage', 'Std. ' + std);
-            else alert('Std. ' + std + ' ના વિષયો જલ્દી આવશે!');
+            else alert('Std. ' + std + ' materials coming soon!');
         }
 
         function showSubjects(stream) {
@@ -146,17 +160,21 @@
             let subs = [];
             
             if(stream === 'Science') subs = ['Physics (ભૌતિક વિજ્ઞાન)', 'Chemistry (રસાયણ વિજ્ઞાન)', 'Maths (ગણિત)', 'Biology (જીવ વિજ્ઞાન)', 'English (અંગ્રેજી)'];
-            if(stream === 'Commerce') subs = ['Account (નામાના મૂળતત્વો)', 'Stat (આંકડાશાસ્ત્ર)', 'Eco (અર્થશાસ્ત્ર)', 'B.A. (વાણિજ્ય વ્યવસ્થા)', 'English (અંગ્રેજી)', 'Gujarati (ગુજરાતી)', 'S.P. & C.C.'];
-            if(stream === 'Arts') subs = ['Psychology (મનોવિજ્ઞાન)', 'Sociology (સમાજશાસ્ત્ર)', 'Geography (ભૂગોળ)', 'History (ઇતિહાસ)', 'Sanskrit (સંસ્કૃત)', 'Political Science (રાજ્યશાસ્ત્ર)'];
+            if(stream === 'Commerce') subs = ['Account (નામાના મૂળતત્વો)', 'Stat (આંકડાશાસ્ત્ર)', 'Eco (અર્થશાસ્ત્ર)', 'B.A. (વાણિજ્ય વ્યવસ્થા)', 'English (અંગ્રેજી)', 'Gujarati (ગુજરાતી)'];
+            if(stream === 'Arts') subs = ['Psychology (મનોવિજ્ઞાન)', 'Sociology (સમાજશાસ્ત્ર)', 'Geography (ભૂગોળ)', 'History (ઇતિહાસ)'];
 
             subs.forEach(s => {
                 let div = document.createElement('div');
                 div.className = 'subject-item';
                 div.innerText = s;
-                div.onclick = () => alert(s + ' મટીરીયલ અપલોડ થઈ રહ્યું છે...');
+                div.onclick = () => alert(s + ' ના ચેપ્ટર્સ હવે પછીના અપડેટમાં આવશે!');
                 list.appendChild(div);
             });
             navigate('subjectPage', stream);
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
         }
     </script>
 </body>
