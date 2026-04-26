@@ -79,9 +79,39 @@ function loadChapters(chapters, subName, backKey, isSenior, stdName) {
         let div = document.createElement('div');
         div.className = `btn-card grad-${(index % 4) + 1}`;
         div.innerHTML = `${chap} <span class="pin-btn ${pinnedQuestions.includes(chap) ? 'active' : ''}" onclick="event.stopPropagation(); togglePin('${chap}')">★</span>`;
-        div.onclick = () => alert(chap + " નું મટીરિયલ ટૂંક સમયમાં આવશે.");
+        // અહીં હવે નવું Options પેજ ખુલશે
+        div.onclick = () => loadOptionsPage(chap, subName, backKey, isSenior, stdName);
         contentArea.appendChild(div);
     });
+}
+
+// આ નવું ફંક્શન તમારા આઈડિયા મુજબ બનાવ્યું છે
+function loadOptionsPage(chapName, subName, backKey, isSenior, stdName) {
+    updateQuote();
+    let displayTitle = isSenior ? `${stdName} (${backKey})` : backKey;
+    
+    contentArea.innerHTML = `
+        <button class="back-btn" onclick="loadChapters(null, '${subName}', '${backKey}', ${isSenior}, '${stdName}')">← પાછા</button>
+        <div style="text-align:center; margin-bottom:15px;">
+            <h2 style="margin:0; color:var(--accent);">${displayTitle}</h2>
+            <p style="margin:5px 0; font-weight:bold;">${subName}: ${chapName}</p>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button class="btn-card grad-1" onclick="alert('PDF ટૂંક સમયમાં આવશે')">📚 પાઠ્ય-પુસ્તક</button>
+            <button class="btn-card grad-2" onclick="alert('PDF ટૂંક સમયમાં આવશે')">📝 Class Note</button>
+            <button class="btn-card grad-3" onclick="alert('PDF ટૂંક સમયમાં આવશે')">📖 સ્વાધ્યાય</button>
+            <button class="btn-card grad-4" onclick="alert('PDF ટૂંક સમયમાં આવશે')">🅰️ Section A</button>
+            <button class="btn-card grad-5" onclick="alert('PDF ટૂંક સમયમાં આવશે')">🅱️ Section B</button>
+            ${(isSenior && backKey === 'Science') ? `<button class="btn-card" style="background: linear-gradient(45deg, #2c3e50, #000000);" onclick="alert('PYQ ટૂંક સમયમાં આવશે')">🎓 PYQ'S (Old Papers)</button>` : ''}
+        </div>
+    `;
+
+    // Back button ને સરખું કામ કરાવવા માટે loadChapters ફરીથી કોલ ન થાય તે રીતે સેટ કરવું
+    contentArea.querySelector('.back-btn').onclick = () => {
+        let list = isSenior ? data["Streams"][backKey] : data[backKey];
+        loadChapters(list[subName], subName, backKey, isSenior, stdName);
+    };
 }
 
 function togglePin(question) {
@@ -92,7 +122,6 @@ function togglePin(question) {
     }
     localStorage.setItem('pinned', JSON.stringify(pinnedQuestions));
     alert("Pinned લિસ્ટ અપડેટ થયું!");
-    // Refresh star color visually
     event.target.classList.toggle('active');
 }
 
@@ -109,7 +138,6 @@ function loadPinnedPage() {
             contentArea.appendChild(div);
         });
     }
-    toggleNav(); // Sidebar close
 }
 
 function toggleNav() {
@@ -122,4 +150,3 @@ function toggleDarkMode() {
 }
 
 window.onload = showSplashScreen;
-    
