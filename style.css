@@ -1,74 +1,26 @@
-body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    background-color: #f8f9fa;
-}
+:root { --bg: #ffffff; --text: #333; }
+.dark-mode { --bg: #1a1a1a; --text: #f0f0f0; }
 
-.header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 50px 20px;
-    border-radius: 0 0 30px 30px;
-    text-align: center;
-    position: relative;
-}
+body { font-family: 'Segoe UI', sans-serif; transition: 0.5s; background-color: var(--bg); color: var(--text); margin: 0; }
+header { background: #6200ee; color: white; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
 
-.menu-icon {
-    font-size: 28px;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    cursor: pointer;
-}
+/* Sidebar Design */
+.sidebar { height: 100%; width: 0; position: fixed; z-index: 10; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.5s; padding-top: 60px; }
+.menu-items button { padding: 15px 25px; font-size: 18px; color: #bbb; display: block; background: none; border: none; width: 100%; text-align: left; cursor: pointer; border-bottom: 1px solid #222; }
+.menu-items button:hover { color: white; background: #333; }
+.sidebar .closebtn { position: absolute; top: 10px; right: 25px; font-size: 36px; color: white; text-decoration: none; }
 
-.sidebar {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    background-color: white;
-    overflow-x: hidden;
-    transition: 0.4s;
-    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
-}
+/* Buttons & Layout */
+#app-content { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+.btn-card { padding: 22px; border: none; border-radius: 15px; font-size: 19px; font-weight: bold; color: white; cursor: pointer; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
+.btn-card:active { transform: scale(0.95); }
 
-.sidebar a {
-    padding: 15px 25px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #333;
-    display: block;
-}
+/* Colorful Gradients */
+.grad-1 { background: linear-gradient(45deg, #FF512F, #DD2476); }
+.grad-2 { background: linear-gradient(45deg, #1D976C, #93F9B9); }
+.grad-3 { background: linear-gradient(45deg, #2193b0, #6dd5ed); }
+.grad-4 { background: linear-gradient(45deg, #ee0979, #ff6a00); }
+.grad-5 { background: linear-gradient(45deg, #4facfe, #00f2fe); }
 
-.closebtn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 35px;
-}
-
-.user-info { padding: 20px 25px; background-color: #f8f9fa; }
-
-.main-container { padding: 30px 20px; text-align: center; }
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-}
-
-.btn {
-    background: white;
-    border: 1px solid #e2e8f0;
-    padding: 20px;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn:active { transform: scale(0.97); background-color: #667eea; color: white; }
+.back-btn { background: #eee; color: #333; padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 10px; font-weight: bold; width: fit-content; }
+.dark-mode .back-btn { background: #333; color: #fff; }
