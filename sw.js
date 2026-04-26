@@ -1,27 +1,34 @@
-const CACHE_NAME = 'fairbook-v1';
+const CACHE_NAME = 'fairbook-v2';
 const assets = [
-  './',
-  './index.html',
-  './style.css',
-  './script.js',
-  './manifest.json',
-  './icon.png'
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icon.png'
 ];
 
-// Service Worker ઇન્સ્ટોલ કરવા માટે
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(assets);
     })
   );
 });
 
-// ઓફલાઇન હોય ત્યારે ફાઇલ્સ બતાવવા માટે
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(response => {
-      return response || fetch(e.request);
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.filter((key) => key !== CACHE_NAME)
+            .map((key) => caches.delete(key))
+      );
+    })
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
     })
   );
 });
