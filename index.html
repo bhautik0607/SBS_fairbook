@@ -6,74 +6,132 @@
     <title>SBS Fairbook</title>
     <link rel="manifest" href="manifest.json">
     <style>
-        :root { --primary: #2c3e50; --accent: #3498db; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #f9f9f9; }
+        :root { --primary: #2c3e50; --accent: #3498db; --white: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; color: #333; }
 
-        /* Splash Screen Style */
+        /* Splash Screen */
         #splash {
             position: fixed; width: 100%; height: 100vh; background: white;
             display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;
         }
-        #splash img { width: 150px; border-radius: 20px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        #splash img { width: 120px; border-radius: 20px; animation: pulse 1.5s infinite; }
 
-        /* Header Style */
-        header { background: var(--primary); color: white; padding: 15px; position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .menu-icon { font-size: 24px; cursor: pointer; }
-        .motivation { text-align: center; padding: 10px; font-style: italic; color: #555; background: #eef2f3; }
+        /* Header */
+        header { background: var(--primary); color: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .back-btn { font-size: 20px; cursor: pointer; display: none; }
 
-        /* Buttons Style */
-        .container { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .std-btn { 
-            background: white; border: 2px solid var(--accent); color: var(--primary);
-            padding: 30px 10px; border-radius: 15px; font-size: 1.2rem; font-weight: bold;
-            cursor: pointer; transition: 0.3s; text-align: center;
+        /* Content Areas */
+        .page { padding: 20px; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .motivation { text-align: center; padding: 10px; font-style: italic; color: #666; background: #eef2f3; margin-bottom: 20px; border-radius: 8px; }
+
+        /* Buttons */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .btn { 
+            background: var(--white); border: 2px solid var(--accent); padding: 25px 10px;
+            border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            transition: 0.2s; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .std-btn:active { background: var(--accent); color: white; transform: scale(0.95); }
-        
+        .btn:active { transform: scale(0.95); background: var(--accent); color: white; }
+        .full-btn { grid-column: span 2; padding: 20px; }
+
         .hidden { display: none !important; }
+        
+        /* List Style for Subjects */
+        .subject-item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 5px solid var(--accent); font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="splash">
-        <img src="icon.png" alt="SBS Logo">
-        <h2 style="color: var(--primary);">SBS Fairbook</h2>
+        <img src="icon.png" alt="Logo">
+        <h2>SBS Fairbook</h2>
     </div>
 
     <header>
-        <div class="menu-icon" onclick="alert('Menu features coming soon!')">☰</div>
-        <div style="font-size: 1.3rem; font-weight: bold;">SBS Fairbook</div>
-        <div style="width: 24px;"></div> </header>
+        <div id="backBtn" class="back-btn" onclick="goBack()">⬅️</div>
+        <div id="navTitle">SBS Fairbook</div>
+        <div style="width: 24px;">☰</div>
+    </header>
 
-    <div class="motivation">
-        "Education is the most powerful weapon which you can use to change the world."
+    <div id="homePage" class="page">
+        <div class="motivation">"લક્ષ્ય સુધી પહોંચવા માટે શિક્ષણ એ શ્રેષ્ઠ રસ્તો છે."</div>
+        <h3 style="text-align: center;">તમારું ધોરણ પસંદ કરો</h3>
+        <div class="grid">
+            <div class="btn" onclick="showStreams(9)">Std. 9</div>
+            <div class="btn" onclick="showStreams(10)">Std. 10</div>
+            <div class="btn" onclick="showStreams(11)">Std. 11</div>
+            <div class="btn" onclick="showStreams(12)">Std. 12</div>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="std-btn" onclick="openStd(9)">Std. 9</div>
-        <div class="std-btn" onclick="openStd(10)">Std. 10</div>
-        <div class="std-btn" onclick="openStd(11)">Std. 11</div>
-        <div class="std-btn" onclick="openStd(12)">Std. 12</div>
+    <div id="streamPage" class="page hidden">
+        <h3 id="streamTitle" style="text-align: center;">સ્ટ્રીમ પસંદ કરો</h3>
+        <div class="grid">
+            <div class="btn full-btn" onclick="showSubjects('Science')">Science</div>
+            <div class="btn full-btn" onclick="showSubjects('Commerce')">Commerce</div>
+            <div class="btn full-btn" onclick="showSubjects('Arts')">Arts</div>
+        </div>
+    </div>
+
+    <div id="subjectPage" class="page hidden">
+        <h3 id="subjectTitle" style="text-align: center;">વિષયો</h3>
+        <div id="subjectList"></div>
     </div>
 
     <script>
-        // Splash screen ને 2.5 સેકન્ડ પછી હટાવવા માટે
-        setTimeout(() => {
-            document.getElementById('splash').classList.add('hidden');
-        }, 2500);
+        let history = ['homePage'];
 
-        function openStd(num) {
-            if(num == 11 || num == 12) {
-                alert('ધોરણ ' + num + ' માટે Science, Commerce અને Arts ના ઓપ્શન હવે પછીના અપડેટમાં આવશે!');
-            } else {
-                alert('ધોરણ ' + num + ' ના વિષયો ટૂંક સમયમાં ઉમેરાશે.');
+        // Hide Splash
+        setTimeout(() => document.getElementById('splash').classList.add('hidden'), 2000);
+
+        function navigate(toId, title) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.getElementById(toId).classList.remove('hidden');
+            document.getElementById('navTitle').innerText = title;
+            document.getElementById('backBtn').style.display = toId === 'homePage' ? 'none' : 'block';
+            history.push(toId);
+        }
+
+        function goBack() {
+            history.pop();
+            let prev = history[history.length - 1];
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.getElementById(prev).classList.remove('hidden');
+            if(prev === 'homePage') {
+                document.getElementById('navTitle').innerText = 'SBS Fairbook';
+                document.getElementById('backBtn').style.display = 'none';
+                history = ['homePage'];
             }
         }
 
-        // Service Worker Register
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+        function showStreams(std) {
+            if(std >= 11) {
+                navigate('streamPage', 'Std. ' + std);
+            } else {
+                alert('Std. ' + std + ' ના વિષયો ટૂંક સમયમાં આવશે!');
+            }
+        }
+
+        function showSubjects(stream) {
+            const list = document.getElementById('subjectList');
+            list.innerHTML = ''; 
+            
+            let subs = [];
+            if(stream === 'Science') subs = ['Physics', 'Chemistry', 'Maths', 'Biology', 'English'];
+            if(stream === 'Commerce') subs = ['Account', 'Stat', 'Eco', 'B.A.', 'English', 'Gujarati'];
+            if(stream === 'Arts') subs = ['Psychology', 'Sociology', 'Geography', 'History', 'Sanskrit'];
+
+            subs.forEach(s => {
+                let div = document.createElement('div');
+                div.className = 'subject-item';
+                div.innerText = s;
+                div.onclick = () => alert(s + ' ના ચેપ્ટર્સ હવે પછીના અપડેટમાં આવશે!');
+                list.appendChild(div);
+            });
+
+            navigate('subjectPage', stream);
         }
     </script>
 </body>
