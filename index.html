@@ -4,45 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SBS Fairbook</title>
-    
     <link rel="manifest" href="manifest.json">
-    
-    <meta name="theme-color" content="#000000">
-    
-    <link rel="apple-touch-icon" href="icon.png">
-
     <style>
-        /* તમારું બેઝિક ડેકોરેશન અહીં આવશે */
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            background-color: #f4f4f4;
+        :root { --primary: #2c3e50; --accent: #3498db; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #f9f9f9; }
+
+        /* Splash Screen Style */
+        #splash {
+            position: fixed; width: 100%; height: 100vh; background: white;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;
         }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        #splash img { width: 150px; border-radius: 20px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* Header Style */
+        header { background: var(--primary); color: white; padding: 15px; position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .menu-icon { font-size: 24px; cursor: pointer; }
+        .motivation { text-align: center; padding: 10px; font-style: italic; color: #555; background: #eef2f3; }
+
+        /* Buttons Style */
+        .container { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .std-btn { 
+            background: white; border: 2px solid var(--accent); color: var(--primary);
+            padding: 30px 10px; border-radius: 15px; font-size: 1.2rem; font-weight: bold;
+            cursor: pointer; transition: 0.3s; text-align: center;
         }
+        .std-btn:active { background: var(--accent); color: white; transform: scale(0.95); }
+        
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>SBS Fairbook</h1>
-        <p>તમારા અભ્યાસ માટેનું ડિજિટલ મટીરીયલ અહીં મળશે.</p>
+    <div id="splash">
+        <img src="icon.png" alt="SBS Logo">
+        <h2 style="color: var(--primary);">SBS Fairbook</h2>
     </div>
 
-    <script src="script.js"></script>
+    <header>
+        <div class="menu-icon" onclick="alert('Menu features coming soon!')">☰</div>
+        <div style="font-size: 1.3rem; font-weight: bold;">SBS Fairbook</div>
+        <div style="width: 24px;"></div> </header>
+
+    <div class="motivation">
+        "Education is the most powerful weapon which you can use to change the world."
+    </div>
+
+    <div class="container">
+        <div class="std-btn" onclick="openStd(9)">Std. 9</div>
+        <div class="std-btn" onclick="openStd(10)">Std. 10</div>
+        <div class="std-btn" onclick="openStd(11)">Std. 11</div>
+        <div class="std-btn" onclick="openStd(12)">Std. 12</div>
+    </div>
 
     <script>
+        // Splash screen ને 2.5 સેકન્ડ પછી હટાવવા માટે
+        setTimeout(() => {
+            document.getElementById('splash').classList.add('hidden');
+        }, 2500);
+
+        function openStd(num) {
+            if(num == 11 || num == 12) {
+                alert('ધોરણ ' + num + ' માટે Science, Commerce અને Arts ના ઓપ્શન હવે પછીના અપડેટમાં આવશે!');
+            } else {
+                alert('ધોરણ ' + num + ' ના વિષયો ટૂંક સમયમાં ઉમેરાશે.');
+            }
+        }
+
+        // Service Worker Register
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker: Registered'))
-                    .catch(err => console.log('Service Worker: Error: ' + err));
-            });
+            navigator.serviceWorker.register('sw.js');
         }
     </script>
 </body>
