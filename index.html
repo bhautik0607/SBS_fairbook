@@ -12,9 +12,12 @@
         <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">×</a>
         <div class="menu-items">
             <button onclick="toggleDarkMode()">🌙 ડાર્ક મોડ</button>
-            <button onclick="alert('સેટિંગ્સ ટૂંક સમયમાં...')">⚙️ સેટિંગ્સ</button>
-            <button onclick="alert('Digital Fairbook v1.0')">ℹ️ એપ વિશે</button>
-            <button onclick="alert('તમારી પરમિશન સુરક્ષિત છે!')">🔒 Permission</button>
+            <button onclick="loadPinnedPage()">⭐ Pinned Questions</button>
+            <button onclick="alert('સ્ટોરેજ ઓપ્શન: લોકલ સ્ટોરેજ સક્રિય છે.')">💾 Storage Options</button>
+            <button onclick="alert('પરમિશન: ફાઇલો વાંચવાની પરમિશન મંજૂર છે.')">🔒 Permissions</button>
+            <button onclick="alert('Digital Fairbook v1.0')">ℹ️ About Us</button>
+            <hr>
+            <button onclick="loadHome()">🏠 Home</button>
         </div>
     </div>
 
@@ -24,8 +27,9 @@
             <h1>Digital Fairbook</h1>
         </header>
 
-        <div id="app-content">
-            </div>
+        <div id="quote-container" class="quote-box"></div>
+
+        <div id="app-content"></div>
     </div>
 
     <script src="script.js"></script>
