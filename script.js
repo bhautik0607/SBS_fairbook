@@ -1,54 +1,67 @@
+const quotes = [
+    "સફળતાનો કોઈ શોર્ટકટ નથી, મહેનત જ તેની ચાવી છે.",
+    "તમારો સમય મર્યાદિત છે, તેને બીજા માટે વેડફશો નહીં.",
+    "શીખવું ક્યારેય બંધ ન કરો, કારણ કે જીવન ક્યારેય શીખવવાનું બંધ કરતું નથી.",
+    "નિષ્ફળતા એ સફળતાનું પ્રથમ પગલું છે.",
+    "વિશ્વાસ રાખો, તમે જે ધારો તે કરી શકો છો."
+];
+
 const data = {
-    "Std 9": {
-        "ગણિત": ["1. સંખ્યા પદ્ધતિ", "2. બહુપદીઓ"],
-        "વિજ્ઞાન": ["1. આપણી આસપાસમાં દ્રવ્ય"]
-    },
-    "Std 10": {
-        "ગણિત": ["1. વાસ્તવિક સંખ્યાઓ", "2. બહુપદીઓ"],
-        "વિજ્ઞાન": ["1. રાસાયણિક પ્રક્રિયાઓ"]
-    },
+    "Std 9": { "ગણિત": ["સંખ્યા પદ્ધતિ", "બહુપદીઓ"], "વિજ્ઞાન": ["ગતિ", "પેશીઓ"] },
+    "Std 10": { "ગણિત": ["વાસ્તવિક સંખ્યાઓ", "સંભાવના"], "વિજ્ઞાન": ["રાસાયણિક પ્રક્રિયાઓ"] },
     "Streams": {
-        "Science": {
-            "ગણિત": ["1. સંબંધ અને વિધેય", "2. ત્રિકોણમિતિય પ્રતિવિધેયો", "3. શ્રેણિક"],
-            "જીવવિજ્ઞાન": ["1. સપુષ્પી વનસ્પતિઓમાં પ્રજનન", "2. માનવ પ્રજનન"]
-        },
-        "Commerce": {
-            "નામું (Accounts)": ["1. ભાગીદારી વિષય પ્રવેશ"],
-            "આંકડાશાસ્ત્ર (Stats)": ["1. સૂચક આંક"]
-        },
-        "Arts": {
-            "મનોવિજ્ઞાન": ["1. સંવેદન, ધ્યાન અને પ્રત્યક્ષીકરણ"]
-        }
+        "Science": { "ગણિત": ["શ્રેણિક", "નિશ્ચાયક"], "જીવવિજ્ઞાન": ["પ્રજનન"] },
+        "Commerce": { "નામું": ["વાર્ષિક હિસાબો"] },
+        "Arts": { "મનોવિજ્ઞાન": ["બુદ્ધિ"] }
     }
 };
 
+let pinnedQuestions = JSON.parse(localStorage.getItem('pinned')) || [];
 const contentArea = document.getElementById('app-content');
+const quoteArea = document.getElementById('quote-container');
+
+function showSplashScreen() {
+    contentArea.innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:70vh;">
+            <img src="icon.png" style="width:120px; border-radius:20px;">
+            <h1 style="color:#6200ee;">Digital Fairbook</h1>
+            <p>જ્ઞાન એ જ શક્તિ છે...</p>
+        </div>
+    `;
+    setTimeout(loadHome, 2000);
+}
+
+function updateQuote() {
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    quoteArea.innerText = randomQuote;
+}
 
 function loadHome() {
-    if (!contentArea) return; // જો એરિયા ના મળે તો અટકી જાવ
+    updateQuote();
     contentArea.innerHTML = `
         <button class="btn-card grad-1" onclick="loadSubjects('Std 9')">ધોરણ 9</button>
         <button class="btn-card grad-2" onclick="loadSubjects('Std 10')">ધોરણ 10</button>
         <button class="btn-card grad-3" onclick="loadStreamSelection('Std 11')">ધોરણ 11</button>
         <button class="btn-card grad-4" onclick="loadStreamSelection('Std 12')">ધોરણ 12</button>
+        <button class="btn-card grad-5" onclick="loadPinnedPage()" style="margin-top:20px;">⭐ Pinned Questions</button>
     `;
 }
 
-// બાકીના બધા ફંક્શન (loadStreamSelection, loadSubjects વગેરે જે મેં પહેલા આપ્યા હતા તે જ)
-function loadStreamSelection(stdName) {
+function loadStreamSelection(std) {
+    updateQuote();
     contentArea.innerHTML = `
-        <button class="back-btn" onclick="loadHome()">← પાછા જાઓ</button>
-        <h2 style="text-align:center">${stdName}</h2>
-        <button class="btn-card grad-1" onclick="loadSubjects('Science', true, '${stdName}')">વિજ્ઞાન પ્રવાહ (Science)</button>
-        <button class="btn-card grad-5" onclick="loadSubjects('Commerce', true, '${stdName}')">સામાન્ય પ્રવાહ (Commerce)</button>
-        <button class="btn-card grad-2" onclick="loadSubjects('Arts', true, '${stdName}')">સામાન્ય પ્રવાહ (Arts)</button>
+        <button class="back-btn" onclick="loadHome()">← પાછા</button>
+        <button class="btn-card grad-1" onclick="loadSubjects('Science', true, '${std}')">Science</button>
+        <button class="btn-card grad-5" onclick="loadSubjects('Commerce', true, '${std}')">Commerce</button>
+        <button class="btn-card grad-2" onclick="loadSubjects('Arts', true, '${std}')">Arts</button>
     `;
 }
 
 function loadSubjects(key, isSenior = false, stdName = "") {
+    updateQuote();
     let list = isSenior ? data["Streams"][key] : data[key];
-    contentArea.innerHTML = `<button class="back-btn" onclick="${isSenior ? `loadStreamSelection('${stdName}')` : 'loadHome()'}">← પાછા જાઓ</button>
-                             <h3 style="text-align:center">${isSenior ? stdName + " - " + key : key}</h3>`;
+    contentArea.innerHTML = `<button class="back-btn" onclick="${isSenior ? `loadStreamSelection('${stdName}')` : 'loadHome()'}">← પાછા</button>`;
+    
     Object.keys(list).forEach((sub, index) => {
         let btn = document.createElement('button');
         btn.className = `btn-card grad-${(index % 5) + 1}`;
@@ -59,40 +72,54 @@ function loadSubjects(key, isSenior = false, stdName = "") {
 }
 
 function loadChapters(chapters, subName, backKey, isSenior, stdName) {
-    contentArea.innerHTML = `<button class="back-btn" onclick="loadSubjects('${backKey}', ${isSenior}, '${stdName}')">← પાછા જાઓ</button>
-                             <h3 style="text-align:center">${subName}</h3>`;
+    updateQuote();
+    contentArea.innerHTML = `<button class="back-btn" onclick="loadSubjects('${backKey}', ${isSenior}, '${stdName}')">← પાછા</button><h3>${subName}</h3>`;
+    
     chapters.forEach((chap, index) => {
-        let btn = document.createElement('button');
-        btn.className = `btn-card grad-${(index % 4) + 1}`;
-        btn.innerText = chap;
-        btn.onclick = () => loadPDFOptions(chap, subName, backKey, isSenior, stdName);
-        contentArea.appendChild(btn);
+        let div = document.createElement('div');
+        div.className = `btn-card grad-${(index % 4) + 1}`;
+        div.innerHTML = `${chap} <span class="pin-btn ${pinnedQuestions.includes(chap) ? 'active' : ''}" onclick="event.stopPropagation(); togglePin('${chap}')">★</span>`;
+        div.onclick = () => alert(chap + " નું મટીરિયલ ટૂંક સમયમાં આવશે.");
+        contentArea.appendChild(div);
     });
 }
 
-function loadPDFOptions(chapName, subName, backKey, isSenior, stdName) {
-    contentArea.innerHTML = `<button class="back-btn" onclick="loadChapters(null, '${subName}', '${backKey}', ${isSenior}, '${stdName}')">← પાછા જાઓ</button>
-                             <h4 style="text-align:center">${chapName}</h4>`;
-    let options = (isSenior && backKey === 'Science') 
-        ? ["પાઠ્ય-પુસ્તક", "ક્લાસ નોટ", "સ્વાધ્યાય", "સેક્શન A", "સેક્શન B", "PYQ'S"]
-        : ["પાઠ્ય-પુસ્તક", "ક્લાસ નોટ", "સ્વાધ્યાય", "સેક્શન A", "સેક્શન B"];
-    options.forEach((opt, index) => {
-        let btn = document.createElement('button');
-        btn.className = `btn-card grad-${(index % 5) + 1}`;
-        btn.innerText = opt;
-        btn.onclick = () => alert(opt + " ટૂંક સમયમાં અપલોડ થશે!");
-        contentArea.appendChild(btn);
-    });
+function togglePin(question) {
+    if (pinnedQuestions.includes(question)) {
+        pinnedQuestions = pinnedQuestions.filter(q => q !== question);
+    } else {
+        pinnedQuestions.push(question);
+    }
+    localStorage.setItem('pinned', JSON.stringify(pinnedQuestions));
+    alert("Pinned લિસ્ટ અપડેટ થયું!");
+    // Refresh star color visually
+    event.target.classList.toggle('active');
+}
+
+function loadPinnedPage() {
+    updateQuote();
+    contentArea.innerHTML = `<button class="back-btn" onclick="loadHome()">← પાછા</button><h3>⭐ Pinned Questions</h3>`;
+    if (pinnedQuestions.length === 0) {
+        contentArea.innerHTML += "<p style='text-align:center;'>કોઈ પ્રશ્ન પિન કરેલો નથી.</p>";
+    } else {
+        pinnedQuestions.forEach(q => {
+            let div = document.createElement('div');
+            div.className = "btn-card grad-3";
+            div.innerText = q;
+            contentArea.appendChild(div);
+        });
+    }
+    toggleNav(); // Sidebar close
 }
 
 function toggleNav() {
     let sb = document.getElementById("sidebar");
-    if(sb) sb.style.width = sb.style.width === "250px" ? "0" : "250px";
+    sb.style.width = sb.style.width === "250px" ? "0" : "250px";
 }
 
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
 }
 
-// આ લાઈન સૌથી મહત્વની છે, જે એપ ચાલુ કરશે
-window.onload = loadHome;
+window.onload = showSplashScreen;
+    
