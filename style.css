@@ -43,7 +43,63 @@ header { background: var(--accent); color: white; padding: 15px; display: flex; 
 .grad-5 { background: linear-gradient(45deg, #4facfe, #00f2fe); }
 
 /* Star (Pin) Style */
-.pin-btn { float: right; cursor: pointer; font-size: 1.5rem; color: #ccc; transition: 0.3s; }
-.pin-btn.active { color: gold; }
+.pin-btn { 
+    float: right; 
+    cursor: pointer; 
+    font-size: 1.5rem; 
+    color: #ccc; /* પિન ન હોય ત્યારે રાખોડી (Gray) */
+    transition: transform 0.2s; 
+}
 
-.back-btn { background: #eee; color: #333; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 10px; width: fit-content; }
+.pin-btn.active { 
+    color: #f1c40f; /* પિન કર્યા પછી જ પીળો (Yellow) */
+    transform: scale(1.2); 
+    font-weight: bold; 
+}
+/* લાઇન ૫૯ પછી આ ઉમેરો */
+.menu-icon {
+    font-size: 30px; 
+    cursor: pointer;
+    padding: 10px;
+}
+.back-btn { 
+    background: #eee; 
+    color: #333; 
+    padding: 10px 25px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    margin-bottom: 20px; 
+    font-size: 18px; 
+    font-weight: bold;
+    display: inline-block;
+}
+.close-btn { 
+    font-size: 40px; 
+    cursor: pointer;
+    color: white;
+    padding: 10px 20px;
+}
+/* મેનુ અને બેક બટન માટેનું ફાઈનલ સેટિંગ */
+
+.back-btn { 
+    background: #eee; 
+    color: #333; 
+    padding: 12px 30px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    margin-bottom: 20px; 
+    font-size: 18px; 
+    font-weight: bold;
+    display: inline-block;
+}
+
+.menu-close { 
+    font-size: 40px !important; 
+    cursor: pointer;
+    color: white;
+    padding: 10px 20px;
+    display: block;
+    text-align: right;
+}
